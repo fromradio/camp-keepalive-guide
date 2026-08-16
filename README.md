@@ -11,7 +11,7 @@ Retro B-movie horror × summer-camp archive aesthetic.
 
 - Vite 5 + React 18
 - Tailwind CSS 3.4
-- React Router DOM 6（HashRouter）
+- React Router DOM 6（BrowserRouter + Vercel SPA rewrite）
 - Lucide React（图标）
 - 自研轻量 i18n：`src/i18n/LanguageContext.jsx`（默认英文，本地记忆偏好）+ `src/i18n/ui.js`（UI 文案）+ `src/data/*.js`（双语攻略数据）
 
@@ -40,17 +40,32 @@ Import the repo into Vercel with the **Vite** preset: build command `npm run bui
 
 | Route | Page |
 |------|------|
-| `/#/` | Home（氛围 Banner + 简介 + 快速导航） |
-| `/#/counselors` | Counselor Files（属性条 / 存活评级 / 使用建议） |
-| `/#/monsters` | Monster Files（行为模式 / 弱点 / 危险度） |
-| `/#/mechanics` | Core Mechanics（回合制 / 昼夜循环 / 资源 / 布局 / 恐慌值） |
-| `/#/strategies` | Strategies（第 1 夜 → 终局夜递进式防守计划） |
-| `/#/campers` | Camper System（类型 / 优先级矩阵 / 疏散路线 / 抉择） |
-| `/#/guide` | Beginner Guide（前 5 分钟清单 / 常见死法 / 开局选择） |
-| `/#/about` | About（游戏信息 / 购买链接 / 声明） |
+| `/` | Home（氛围 Banner + 简介 + 快速导航） |
+| `/counselors` | Counselor Files（属性条 / 存活评级 / 使用建议） |
+| `/monsters` | Monster Files（行为模式 / 弱点 / 危险度） |
+| `/mechanics` | Core Mechanics（回合制 / 昼夜循环 / 资源 / 布局 / 恐慌值） |
+| `/strategies` | Strategies（第 1 夜 → 终局夜递进式防守计划） |
+| `/campers` | Camper System（类型 / 优先级矩阵 / 疏散路线 / 抉择） |
+| `/guide` | Beginner Guide（前 5 分钟清单 / 常见死法 / 开局选择） |
+| `/about` | About（游戏信息 / 购买链接 / 声明） |
 
 Content data lives in `src/data/` (counselors / monsters / mechanics / strategies / campers / guide),
 each file exporting `{ zh: [...], en: [...] }`. UI copy lives in `src/i18n/ui.js`.
+
+## SEO · 搜索引擎优化
+
+- **BrowserRouter**：干净 URL（无 `#`），`vercel.json` 的 SPA rewrite 兜底。
+- **构建期预渲染**：`npm run build` 先 `vite build`，再执行 `scripts/prerender.mjs`——
+  为 8 条路由各生成一份独立的 `dist/<route>/index.html`，分别写入该页的
+  `<title>` / `meta description` / `canonical` / `og:*` / `twitter:*`。
+  路由元数据单一来源：`src/seo/routes.js`。
+- **客户端兜底**：`src/components/Meta.jsx` 在 SPA 内切换路由时同步更新
+  `document.title` 与 `meta description`。
+- **结构化数据**：`index.html` 内嵌 JSON-LD（`WebSite` + `VideoGame`）。
+- **sitemap / robots**：由预渲染脚本生成 `dist/sitemap.xml` 与 `dist/robots.txt`。
+- **⚠️ 域名占位**：预渲染脚本与 `index.html` 中的 `SITE_URL` 当前为
+  `https://camp-keepalive-guide.vercel.app`，部署到真实域名后请全局替换
+  （`scripts/prerender.mjs` + `index.html`）。
 
 ## Screenshots & Artwork · 图片素材
 

@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout.jsx'
 import ScrollToTop from './components/ScrollToTop.jsx'
+import Meta from './components/Meta.jsx'
 import Home from './pages/Home.jsx'
 import Counselors from './pages/Counselors.jsx'
 import Monsters from './pages/Monsters.jsx'
@@ -14,6 +15,7 @@ export default function App() {
   return (
     <>
       <ScrollToTop />
+      <Meta />
       <Routes>
       <Route element={<Layout />}>
         <Route index element={<Home />} />

@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 原始 keyframes：供内联 style 动画引用（Tailwind 仅在类被使用时才注入同名关键帧） */
+@keyframes flicker {
+  0%, 100% { transform: scaleY(1) scaleX(1); opacity: 0.95; }
+  25% { transform: scaleY(1.15) scaleX(0.92); opacity: 1; }
+  50% { transform: scaleY(0.9) scaleX(1.05); opacity: 0.85; }
+  75% { transform: scaleY(1.08) scaleX(0.96); opacity: 1; }
+}
+@keyframes glowpulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 0.9; }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-forest-deep text-bone font-body antialiased;
+    background-image: linear-gradient(180deg, #0d1f0d 0%, #081208 60%, #050a05 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+  ::selection {
+    background: #cc3333;
+    color: #e8dcc0;
+  }
+}
+
+@layer components {
+  /* 撕纸边缘卡片：粗糙、像被撕过的纸张边框 */
+  .torn-card {
+    position: relative;
+    background: #2a452a;
+    clip-path: polygon(
+      0% 3%, 4% 0%, 12% 2%, 22% 0%, 33% 2%, 45% 0%, 56% 2%, 68% 0%,
+      79% 2%, 90% 0%, 100% 3%, 99% 14%, 100% 26%, 98% 38%, 100% 51%,
+      99% 64%, 100% 77%, 98% 89%, 100% 97%, 94% 100%, 84% 98%, 72% 100%,
+      60% 98%, 48% 100%, 36% 98%, 24% 100%, 12% 98%, 3% 100%, 0% 96%,
+      1% 84%, 0% 71%, 2% 58%, 0% 45%, 1% 32%, 0% 19%, 2% 8%
+    );
+  }
+  .torn-card-inner {
+    background: linear-gradient(160deg, #16281a 0%, #101f10 55%, #0b160b 100%);
+  }
+
+  /* WARNING 印章风格标签 */
+  .warning-stamp {
+    @apply inline-block font-display uppercase tracking-widest text-blood-bright;
+    border: 3px double #cc3333;
+    padding: 0.15rem 0.7rem;
+    transform: rotate(-3deg);
+    text-shadow: 0 0 6px rgba(204, 51, 51, 0.6);
+    box-shadow: 0 0 8px rgba(204, 51, 51, 0.25) inset;
+    background: rgba(204, 51, 51, 0.08);
+  }
+
+  /* 旧报纸标题 */
+  .headline {
+    @apply font-display text-paper uppercase tracking-wide;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.7), 0 0 18px rgba(232, 220, 192, 0.12);
+  }
+
+  /* 属性条轨道 */
+  .stat-track {
+    @apply h-2.5 w-full rounded-sm overflow-hidden;
+    background: rgba(212, 212, 200, 0.12);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.6);
+  }
+
+  /* 月亮光晕 */
+  .moon {
+    background: radial-gradient(circle at 38% 35%, #f5eeda 0%, #e8dcc0 45%, #c9b98f 100%);
+    box-shadow: 0 0 40px 12px rgba(232, 220, 192, 0.28), 0 0 90px 30px rgba(232, 220, 192, 0.1);
+  }
+
+  /* 松树剪影（三角形树冠） */
+  .pine {
+    clip-path: polygon(50% 0%, 78% 34%, 64% 34%, 86% 62%, 70% 62%, 96% 92%, 56% 92%, 56% 100%, 44% 100%, 44% 92%, 4% 92%, 30% 62%, 14% 62%, 36% 34%, 22% 34%);
+  }
+}

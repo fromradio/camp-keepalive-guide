@@ -63,9 +63,8 @@ each file exporting `{ zh: [...], en: [...] }`. UI copy lives in `src/i18n/ui.js
   `document.title` 与 `meta description`。
 - **结构化数据**：`index.html` 内嵌 JSON-LD（`WebSite` + `VideoGame`）。
 - **sitemap / robots**：由预渲染脚本生成 `dist/sitemap.xml` 与 `dist/robots.txt`。
-- **⚠️ 域名占位**：预渲染脚本与 `index.html` 中的 `SITE_URL` 当前为
-  `https://camp-keepalive-guide.vercel.app`，部署到真实域名后请全局替换
-  （`scripts/prerender.mjs` + `index.html`）。
+- **站点域名**：`SITE_URL` 统一为 `https://keep-alive-wiki.gameresearch.top`
+  （`scripts/prerender.mjs` + `index.html`；换域名时全局替换这两处）。
 
 ## Screenshots & Artwork · 图片素材
 

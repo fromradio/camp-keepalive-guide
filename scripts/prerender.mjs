@@ -10,7 +10,7 @@ import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { routeMeta, SITE_NAME, DEFAULT_OG_IMAGE } from '../src/seo/routes.js'
 
-const SITE_URL = 'https://camp-keepalive-guide.vercel.app'
+const SITE_URL = 'https://keep-alive-wiki.gameresearch.top'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const dist = join(__dirname, '..', 'dist')
 

@@ -52,11 +52,10 @@ Import the repo into Vercel with the **Vite** preset: build command `npm run bui
 Content data lives in `src/data/` (counselors / monsters / mechanics / strategies / campers / guide),
 each file exporting `{ zh: [...], en: [...] }`. UI copy lives in `src/i18n/ui.js`.
 
-## Screenshots · 截图说明
+## Screenshots & Artwork · 图片素材
 
-Real official screenshots are already integrated, downloaded from the
-[Steam store page](https://store.steampowered.com/app/3637630/Camp_Keepalive_Endless_Summer/)
-(app 3637630) into `/public/screenshots/`:
+**Official Steam screenshots**（`public/screenshots/`，来自
+[Steam 商店页](https://store.steampowered.com/app/3637630/Camp_Keepalive_Endless_Summer/)，app 3637630）:
 
 | File | Content | Used in |
 |------|---------|---------|
@@ -67,22 +66,24 @@ Real official screenshots are already integrated, downloaded from the
 | `steam-ss-4.jpg` | 怪物情报提示 "A Toxic Horror" | Monsters |
 | `steam-ss-5.jpg` | 人事档案 "Staff Files: Wyatt Wallace" | Counselors |
 
-Rendered via `src/components/Shot.jsx`（真实截图）and `src/components/PlaceholderImg.jsx`（占位图）。
-Individual counselor / monster entries still use placeholders because the store page
-offers no per-character shots.
+**Entry artwork**（`public/portraits/`）:
 
-### 如何替换剩余占位图
+| File | Content | Source |
+|------|---------|--------|
+| `dave.png` / `ashley.png` / `wyatt.png` | 辅导员证件照 | 从 `steam-ss-5.jpg` 人事档案界面裁剪，3× 最近邻放大 |
+| `toxic-horror.png` | 剧毒恐兽实拍 | 从 `steam-ss-4.jpg` 裁剪 |
+| `wave-encounter.png` | 墓地遭遇场景 | 从 `steam-ss-1.jpg` 裁剪 |
+| `axe-murderer.jpg` / `killer-clown.jpg` | 怪物插图 | 游戏像素风格的原创粉丝美术（AI 辅助生成） |
 
-1. 打开 Steam 商店页面搜索 "Camp Keepalive"
-2. 在商店页面的"截图"区域右键保存官方截图（或在游戏内自行截图）
-3. 将图片放入 `/public/screenshots/` 目录
-4. 在对应组件中替换 `placehold.co` URL 为本地路径，如 `/screenshots/xxx.jpg`
+页面级截图经 `src/components/Shot.jsx` 渲染；条目图片直接以 `<img class="pixelated">`
+引用（`image-rendering: pixelated` 保持像素锐利）。
 
-占位图统一由 `PlaceholderImg.jsx` 生成：
+### 如何替换为你自己的截图
 
-```
-https://placehold.co/640x360/1a2f1a/cc3333?text=Camp+Screenshot:+[描述]
-```
+1. 在游戏内或 Steam 商店页保存截图
+2. 将图片放入 `public/screenshots/` 或 `public/portraits/`
+3. 修改 `src/data/screenshots.js`（页面级）或对应 `src/data/*.js` 条目中的
+   `portrait` / `image` 字段为本地路径，如 `/screenshots/xxx.jpg`
 
 ## Notes · 说明
 

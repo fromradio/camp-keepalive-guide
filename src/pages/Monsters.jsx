@@ -1,8 +1,6 @@
 import { Axe, Skull, TreePine, Ghost, Flame, Smile } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
 import DangerTag from '../components/DangerTag.jsx'
-import ConfidenceTag from '../components/ConfidenceTag.jsx'
-import PlaceholderImg from '../components/PlaceholderImg.jsx'
 import Shot from '../components/Shot.jsx'
 import { monsters } from '../data/monsters.js'
 import { SHOTS } from '../data/screenshots.js'
@@ -54,41 +52,41 @@ export default function Monsters() {
       <div className="space-y-8">
         {list.map((m) => (
           <article key={m.id} className="torn-card p-1.5 transition-transform hover:-translate-y-0.5">
-            <div className="torn-card-inner group p-5 md:p-6">
-              <div className="flex flex-col gap-5 md:flex-row">
-                {/* hover 抖动动画 */}
-                <div className="group-hover:animate-shake">
+            <div className="torn-card-inner group overflow-hidden p-0">
+              {/* 怪物视觉图（像素插图 / 游戏实拍） */}
+              <div className="relative">
+                <img
+                  src={m.image}
+                  alt={m.name}
+                  loading="lazy"
+                  className="pixelated block h-48 w-full border-b-2 border-forest-light object-cover md:h-56"
+                />
+                <div className="absolute bottom-3 left-4 group-hover:animate-shake">
                   <MonsterIcon theme={m.iconTheme} danger={m.danger} />
-                </div>
-
-                <div className="min-w-0 flex-1">
-                  <div className="mb-2 flex flex-wrap items-center gap-3">
-                    <h2 className="headline text-xl">{m.name}</h2>
-                    <DangerTag level={m.danger} />
-                    <ConfidenceTag level={m.confidence} />
-                    <span className="text-xs text-bone/50">{s.common.appears}: {m.nights}</span>
-                  </div>
-
-                  <dl className="space-y-3 text-sm leading-relaxed">
-                    <div>
-                      <dt className="font-bold text-paper">{s.common.behavior}</dt>
-                      <dd className="text-bone/80">{m.behavior}</dd>
-                    </div>
-                    <div>
-                      <dt className="font-bold text-ember">{s.common.weakness}</dt>
-                      <dd className="text-bone/80">{m.weakness}</dd>
-                    </div>
-                    <div>
-                      <dt className="font-bold text-paper">{s.common.counter}</dt>
-                      <dd className="text-bone/80">{m.strategy}</dd>
-                    </div>
-                  </dl>
                 </div>
               </div>
 
-              <div className="mt-5">
-                <PlaceholderImg desc={m.screenshot} alt={`${m.name} encounter screenshot (placeholder)`} />
-                <p className="mt-2 text-xs text-bone/40">{s.common.placeholderNote}</p>
+              <div className="p-5 md:p-6">
+                <div className="mb-2 flex flex-wrap items-center gap-3">
+                  <h2 className="headline text-xl">{m.name}</h2>
+                  <DangerTag level={m.danger} />
+                  <span className="text-xs text-bone/50">{s.common.appears}: {m.nights}</span>
+                </div>
+
+                <dl className="space-y-3 text-sm leading-relaxed">
+                  <div>
+                    <dt className="font-bold text-paper">{s.common.behavior}</dt>
+                    <dd className="text-bone/80">{m.behavior}</dd>
+                  </div>
+                  <div>
+                    <dt className="font-bold text-ember">{s.common.weakness}</dt>
+                    <dd className="text-bone/80">{m.weakness}</dd>
+                  </div>
+                  <div>
+                    <dt className="font-bold text-paper">{s.common.counter}</dt>
+                    <dd className="text-bone/80">{m.strategy}</dd>
+                  </div>
+                </dl>
               </div>
             </div>
           </article>

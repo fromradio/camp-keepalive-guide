@@ -1,32 +1,12 @@
-import { User, Shield, Heart, Eye, Flame, Footprints, Megaphone, Wrench, Archive } from 'lucide-react'
+import { Archive } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
 import StatBar from '../components/StatBar.jsx'
 import RatingBadge from '../components/RatingBadge.jsx'
-import ConfidenceTag from '../components/ConfidenceTag.jsx'
-import PlaceholderImg from '../components/PlaceholderImg.jsx'
 import Shot from '../components/Shot.jsx'
 import { counselors, rosterNote } from '../data/counselors.js'
 import { SHOTS } from '../data/screenshots.js'
 import { useLang } from '../i18n/LanguageContext.jsx'
 import { ui } from '../i18n/ui.js'
-
-// 技能图标组合：User + 技能图标
-const THEME_ICONS = {
-  shield: Shield, heart: Heart, eye: Eye, flame: Flame, boot: Footprints,
-  megaphone: Megaphone, wrench: Wrench,
-}
-
-function CounselorAvatar({ theme }) {
-  const ThemeIcon = THEME_ICONS[theme] || Shield
-  return (
-    <div className="relative flex h-20 w-20 shrink-0 items-center justify-center rounded-sm border-2 border-ember/70 bg-forest-mid">
-      <User size={38} className="text-bone/80" />
-      <div className="absolute -bottom-2 -right-2 rounded-full border border-ember bg-forest-deep p-1.5">
-        <ThemeIcon size={16} className="text-ember" />
-      </div>
-    </div>
-  )
-}
 
 export default function Counselors() {
   const { lang } = useLang()
@@ -49,9 +29,14 @@ export default function Counselors() {
           <article key={c.id} className="torn-card p-1.5">
             <div className="torn-card-inner p-5 md:p-6">
               <div className="flex flex-col gap-5 md:flex-row">
-                {/* 头像 + 评级 */}
+                {/* 游戏内证件照 + 评级 */}
                 <div className="flex items-start gap-4 md:flex-col md:items-center">
-                  <CounselorAvatar theme={c.iconTheme} />
+                  <img
+                    src={c.portrait}
+                    alt={`${c.name} portrait`}
+                    loading="lazy"
+                    className="pixelated h-36 w-auto shrink-0 rounded-sm border-2 border-ember/70 bg-black object-cover"
+                  />
                   <RatingBadge rating={c.rating} />
                 </div>
 
@@ -60,7 +45,6 @@ export default function Counselors() {
                   <div className="mb-1 flex flex-wrap items-center gap-3">
                     <h2 className="headline text-xl">{c.name}</h2>
                     <span className="text-sm text-ember">{c.title}</span>
-                    <ConfidenceTag level={c.confidence} />
                   </div>
                   <div className="mb-3 flex flex-wrap gap-2">
                     {c.tags.map((t) => (
@@ -84,12 +68,6 @@ export default function Counselors() {
                     <span className="font-bold text-paper">{s.common.advice}：</span>{c.strategy}
                   </p>
                 </div>
-              </div>
-
-              {/* 暂无单人官方截图，保留占位图 */}
-              <div className="mt-5">
-                <PlaceholderImg desc={c.screenshot} alt={`${c.name} screenshot (placeholder)`} />
-                <p className="mt-2 text-xs text-bone/40">{s.common.placeholderNote}</p>
               </div>
             </div>
           </article>

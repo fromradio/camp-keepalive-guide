@@ -14,7 +14,7 @@ Retro B-movie horror × summer-camp archive aesthetic.
 - React Router DOM 6（BrowserRouter + Vercel SPA rewrite）
 - Lucide React（图标）
 - 自研轻量 i18n：`src/i18n/LanguageContext.jsx`（默认英文，本地记忆偏好）+ `src/i18n/ui.js`（UI 文案）+ `src/data/*.js`（双语攻略数据）
-- Vercel Analytics（`@vercel/analytics`，需在 Vercel 项目后台启用 Analytics 后开始计数）
+- Vercel Analytics（`@vercel/analytics`）+ Speed Insights（`@vercel/speed-insights`），需在 Vercel 项目后台分别启用后开始计数
 
 ## Local Development · 本地运行
 

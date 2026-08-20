@@ -13,7 +13,7 @@ Retro B-movie horror × summer-camp archive aesthetic.
 - Tailwind CSS 3.4
 - React Router DOM 6（BrowserRouter + Vercel SPA rewrite）
 - Lucide React（图标）
-- 自研轻量 i18n：`src/i18n/LanguageContext.jsx`（默认英文，本地记忆偏好）+ `src/i18n/ui.js`（UI 文案）+ `src/data/*.js`（双语攻略数据）
+- 自研轻量 i18n：URL 级双语（英文无前缀 `/guide`，中文 `/zh/guide`），`src/i18n/LanguageContext.jsx` 从路径推导语言 + `src/i18n/ui.js`（UI 文案）+ `src/data/*.js`（双语攻略数据）
 - Vercel Analytics（`@vercel/analytics`）+ Speed Insights（`@vercel/speed-insights`），需在 Vercel 项目后台分别启用后开始计数
 
 ## Local Development · 本地运行
@@ -50,22 +50,29 @@ Import the repo into Vercel with the **Vite** preset: build command `npm run bui
 | `/guide` | Beginner Guide（前 5 分钟清单 / 常见死法 / 开局选择） |
 | `/about` | About（游戏信息 / 购买链接 / 声明） |
 
+上表为英文路由；中文版本为同一结构加 `/zh` 前缀（如 `/zh/guide`），共 16 个 URL，
+语言切换按钮在两种语言版本间互相跳转。
+
 Content data lives in `src/data/` (counselors / monsters / mechanics / strategies / campers / guide),
 each file exporting `{ zh: [...], en: [...] }`. UI copy lives in `src/i18n/ui.js`.
 
 ## SEO · 搜索引擎优化
 
 - **BrowserRouter**：干净 URL（无 `#`），`vercel.json` 的 SPA rewrite 兜底。
+- **URL 级双语 + hreflang**：每种语言独立 URL，每页标注
+  `hreflang="en" / "zh" / "x-default"` 交替链接，搜索引擎按用户语言展示对应版本
+  （纯中文标题/简介 ↔ 纯英文标题/简介）。
 - **构建期预渲染**：`npm run build` 先 `vite build`，再执行 `scripts/prerender.mjs`——
-  为 8 条路由各生成一份独立的 `dist/<route>/index.html`，分别写入该页的
-  `<title>` / `meta description` / `canonical` / `og:*` / `twitter:*`。
+  为 8 条路由 × 2 种语言各生成一份独立的 `dist/<route>/index.html`，分别写入该页的
+  `<html lang>` / `<title>` / `meta description` / `canonical` / `og:*` / `twitter:*` / hreflang。
   路由元数据单一来源：`src/seo/routes.js`。
 - **客户端兜底**：`src/components/Meta.jsx` 在 SPA 内切换路由时同步更新
-  `document.title` 与 `meta description`。
+  `document.title`、`meta description`、`canonical` 与 hreflang。
 - **结构化数据**：`index.html` 内嵌 JSON-LD（`WebSite` + `VideoGame`）。
-- **sitemap / robots**：由预渲染脚本生成 `dist/sitemap.xml` 与 `dist/robots.txt`。
-- **站点域名**：`SITE_URL` 统一为 `https://keep-alive-wiki.gameresearch.top`
-  （`scripts/prerender.mjs` + `index.html`；换域名时全局替换这两处）。
+- **sitemap / robots**：由预渲染脚本生成 `dist/sitemap.xml`（16 个 URL，含
+  `xhtml:link` 语言交替标注）与 `dist/robots.txt`。
+- **站点域名**：`SITE_URL` 统一在 `src/seo/routes.js`（`index.html` 内的
+  canonical/og:*/JSON-LD 需同步替换）。
 
 ## Screenshots & Artwork · 图片素材
 

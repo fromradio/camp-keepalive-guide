@@ -34,14 +34,14 @@ function LangToggle({ className = '' }) {
 }
 
 function NavList({ onNavigate }) {
-  const { lang } = useLang()
+  const { lang, lp } = useLang()
   const s = ui[lang]
   return (
     <nav className="flex flex-col gap-1">
       {NAV_ITEMS.map(({ to, key, icon: Icon, end }) => (
         <NavLink
           key={to}
-          to={to}
+          to={lp(to)}
           end={end}
           onClick={onNavigate}
           className={({ isActive }) =>

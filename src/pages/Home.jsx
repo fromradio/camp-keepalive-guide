@@ -12,7 +12,7 @@ import { ui } from '../i18n/ui.js'
 import { SHOTS } from '../data/screenshots.js'
 
 export default function Home() {
-  const { lang } = useLang()
+  const { lang, lp } = useLang()
   const s = ui[lang]
   const quickLinks = NAV_ITEMS.filter((i) => i.key !== 'home' && i.key !== 'about')
 
@@ -31,7 +31,7 @@ export default function Home() {
             </p>
             <p className="mb-8 max-w-xl text-bone/80">{s.home.tagline}</p>
             <Link
-              to="/guide"
+              to={lp('/guide')}
               className="inline-flex items-center gap-2 rounded-sm border-2 border-blood bg-blood/20 px-6 py-3 font-display uppercase tracking-widest text-paper transition-colors hover:bg-blood/40"
             >
               {s.home.cta} <ArrowRight size={18} />
@@ -76,7 +76,7 @@ export default function Home() {
           {quickLinks.map(({ to, key, icon: Icon }) => (
             <Link
               key={to}
-              to={to}
+              to={lp(to)}
               className="group flex items-center gap-3 rounded-sm border border-forest-light bg-forest-mid/40 p-4 transition-colors hover:border-blood hover:bg-blood/10"
             >
               <Icon size={22} className="shrink-0 text-ember transition-transform group-hover:scale-110" />

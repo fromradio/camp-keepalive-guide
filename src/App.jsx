@@ -18,6 +18,7 @@ export default function App() {
       <Meta />
       <Routes>
       <Route element={<Layout />}>
+        {/* 英文（默认，无前缀） */}
         <Route index element={<Home />} />
         <Route path="counselors" element={<Counselors />} />
         <Route path="monsters" element={<Monsters />} />
@@ -26,6 +27,15 @@ export default function App() {
         <Route path="campers" element={<Campers />} />
         <Route path="guide" element={<Guide />} />
         <Route path="about" element={<About />} />
+        {/* 中文（/zh 前缀） */}
+        <Route path="zh" element={<Home />} />
+        <Route path="zh/counselors" element={<Counselors />} />
+        <Route path="zh/monsters" element={<Monsters />} />
+        <Route path="zh/mechanics" element={<Mechanics />} />
+        <Route path="zh/strategies" element={<Strategies />} />
+        <Route path="zh/campers" element={<Campers />} />
+        <Route path="zh/guide" element={<Guide />} />
+        <Route path="zh/about" element={<About />} />
         <Route path="*" element={<Home />} />
       </Route>
       </Routes>

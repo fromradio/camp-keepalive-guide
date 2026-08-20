@@ -5,9 +5,10 @@
 //
 // ⚠️ 换域名时改 src/seo/routes.js 的 SITE_URL + index.html 内的 canonical/og:*/JSON-LD。
 
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
+import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs'
 import { join, dirname } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
+import { build } from 'esbuild'
 import {
   routeMeta, SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE, withLang,
 } from '../src/seo/routes.js'
@@ -23,11 +24,26 @@ const template = readFileSync(join(dist, 'index.html'), 'utf8')
 const LANGS = ['en', 'zh']
 const OG_LOCALE = { en: 'en_US', zh: 'zh_CN' }
 
-function renderRoute(route, lang) {
+// —— 正文全量预渲染：SSR 渲染页面 HTML 并注入 #root，
+// 爬虫无需执行 JS 即可拿到完整内容；客户端 hydrateRoot 接管（见 src/main.jsx）。
+const entryOut = join(dist, '.ssr-entry.cjs')
+await build({
+  entryPoints: [join(__dirname, 'render-entry.jsx')],
+  bundle: true,
+  format: 'cjs',
+  platform: 'node',
+  jsx: 'automatic',
+  outfile: entryOut,
+  logLevel: 'error',
+})
+const { createRequire } = await import('node:module')
+const require = createRequire(import.meta.url)
+const { renderPage } = require(entryOut)
+
+function renderRoute(route, lang, selfPath) {
   const meta = route[lang]
   const enPath = route.path
   const zhPath = withLang(route.path, 'zh')
-  const selfPath = lang === 'zh' ? zhPath : enPath
   const urlOf = (p) => (p === '/' ? `${SITE_URL}/` : `${SITE_URL}${p}`)
   const selfUrl = urlOf(selfPath)
   const ogImage = `${SITE_URL}${DEFAULT_OG_IMAGE}`
@@ -93,6 +109,12 @@ function renderRoute(route, lang) {
     /(<meta name="twitter:image" content=")[^"]*(")/,
     `$1${esc(ogImage)}$2`,
   )
+  // 正文注入：SSR 渲染结果填入 #root（供 hydrateRoot 水合）
+  const appHtml = renderPage(selfPath)
+  html = html.replace(
+    '<div id="root"></div>',
+    `<div id="root">${appHtml}</div>`,
+  )
   return html
 }
 
@@ -105,10 +127,11 @@ for (const route of routeMeta) {
     const selfPath = lang === 'zh' ? withLang(route.path, 'zh') : route.path
     const file = outFile(selfPath)
     mkdirSync(dirname(file), { recursive: true })
-    writeFileSync(file, renderRoute(route, lang))
+    writeFileSync(file, renderRoute(route, lang, selfPath))
     count++
   }
 }
+rmSync(entryOut, { force: true })
 
 // robots.txt
 writeFileSync(

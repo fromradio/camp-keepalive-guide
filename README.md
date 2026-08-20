@@ -1,5 +1,7 @@
 # Camp Keepalive Fan Guide · 中文攻略站
 
+> This is a standalone project. Do not mix with other game guide repositories.
+
 A bilingual (English / 中文) static fan guide for the turn-based horror strategy game
 **Camp Keepalive: Endless Summer** (Porch Weather Games, 2025).
 Retro B-movie horror × summer-camp archive aesthetic.
@@ -62,9 +64,11 @@ each file exporting `{ zh: [...], en: [...] }`. UI copy lives in `src/i18n/ui.js
 - **URL 级双语 + hreflang**：每种语言独立 URL，每页标注
   `hreflang="en" / "zh" / "x-default"` 交替链接，搜索引擎按用户语言展示对应版本
   （纯中文标题/简介 ↔ 纯英文标题/简介）。
-- **构建期预渲染**：`npm run build` 先 `vite build`，再执行 `scripts/prerender.mjs`——
-  为 8 条路由 × 2 种语言各生成一份独立的 `dist/<route>/index.html`，分别写入该页的
-  `<html lang>` / `<title>` / `meta description` / `canonical` / `og:*` / `twitter:*` / hreflang。
+- **构建期预渲染（含正文全量 SSG）**：`npm run build` 先 `vite build`，再执行
+  `scripts/prerender.mjs` —— 为 8 条路由 × 2 种语言各生成一份独立的
+  `dist/<route>/index.html`：写入该页的 `<html lang>` / `<title>` / `meta description` /
+  `canonical` / `og:*` / `twitter:*` / hreflang，并把 `renderToString` 渲染出的**完整页面正文**
+  注入 `#root`（爬虫无需执行 JS 即可拿到全文，客户端由 `hydrateRoot` 接管）。
   路由元数据单一来源：`src/seo/routes.js`。
 - **客户端兜底**：`src/components/Meta.jsx` 在 SPA 内切换路由时同步更新
   `document.title`、`meta description`、`canonical` 与 hreflang。

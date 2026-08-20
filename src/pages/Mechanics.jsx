@@ -2,6 +2,8 @@ import { Hourglass, SunMoon, Backpack, Map as MapIcon, TriangleAlert, Users, Tar
 import PageHeader from '../components/PageHeader.jsx'
 import Shot from '../components/Shot.jsx'
 import { mechanics } from '../data/mechanics.js'
+import { survivorQuotes } from '../data/quotes.js'
+import CampfireTalk from '../components/CampfireTalk.jsx'
 import { SHOTS } from '../data/screenshots.js'
 import { useLang } from '../i18n/LanguageContext.jsx'
 import { ui } from '../i18n/ui.js'
@@ -19,7 +21,9 @@ export default function Mechanics() {
 
   return (
     <div>
-      <PageHeader code={p.code} title={p.title} desc={p.desc} />
+      <PageHeader code={p.code} title={p.title} desc={p.desc} stamp={p.stamp} />
+
+      <CampfireTalk quote={survivorQuotes.mechanics} />
 
       {/* 真实截图：营地布局（战术地图全景） */}
       <section className="mb-8">

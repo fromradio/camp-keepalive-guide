@@ -3,6 +3,8 @@ import PageHeader from '../components/PageHeader.jsx'
 import Shot from '../components/Shot.jsx'
 import Campfire from '../components/Campfire.jsx'
 import { firstFiveMinutes, commonDeaths, openingPicks, mustKnowTips } from '../data/guide.js'
+import { survivorQuotes } from '../data/quotes.js'
+import CampfireTalk from '../components/CampfireTalk.jsx'
 import { SHOTS } from '../data/screenshots.js'
 import { useLang } from '../i18n/LanguageContext.jsx'
 import { ui } from '../i18n/ui.js'
@@ -19,6 +21,8 @@ export default function Guide() {
   return (
     <div>
       <PageHeader code={p.code} title={p.title} desc={p.desc} stamp={p.stamp} />
+
+      <CampfireTalk quote={survivorQuotes.guide} />
 
       {/* 真实截图：选人界面 */}
       <section className="mb-8">

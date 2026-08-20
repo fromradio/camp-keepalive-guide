@@ -2,7 +2,9 @@ import { ShieldAlert, Package, Scale } from 'lucide-react'
 import PageHeader from '../components/PageHeader.jsx'
 import Shot from '../components/Shot.jsx'
 import { nightStrategies } from '../data/strategies.js'
+import { survivorQuotes } from '../data/quotes.js'
 import { SHOTS } from '../data/screenshots.js'
+import CampfireTalk from '../components/CampfireTalk.jsx'
 import { useLang } from '../i18n/LanguageContext.jsx'
 import { ui } from '../i18n/ui.js'
 
@@ -20,6 +22,8 @@ export default function Strategies() {
       <section className="mb-8">
         <Shot shot={SHOTS.levelSelect} />
       </section>
+
+      <CampfireTalk quote={survivorQuotes.strategies} />
 
       <div className="relative space-y-8 before:absolute before:bottom-4 before:left-[19px] before:top-4 before:w-0.5 before:bg-forest-light md:before:left-[23px]">
         {list.map((n) => (

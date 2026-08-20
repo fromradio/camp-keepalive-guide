@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import {
-  Home, Users, Skull, Cog, Map, Tent, BookOpen, Info, Menu, X, Flame, Languages,
+  Home, Users, Skull, Cog, Map, Tent, BookOpen, Info, Menu, X, Flame, Languages, FlaskConical,
 } from 'lucide-react'
 import { useLang } from '../i18n/LanguageContext.jsx'
 import { ui } from '../i18n/ui.js'
@@ -65,6 +65,13 @@ function Brand() {
   const s = ui[lang]
   return (
     <div className="mb-6 border-b border-forest-light pb-4">
+      <a
+        href="https://gameresearch.top"
+        className="mb-3 flex items-center gap-1.5 rounded-sm border border-forest-light px-2 py-1 text-[10px] uppercase tracking-widest text-bone/40 transition-colors hover:border-ember hover:text-ember"
+        title="GameResearch — player-made guide network"
+      >
+        <FlaskConical size={11} /> GameResearch
+      </a>
       <div className="flex items-center gap-3">
         <Flame size={28} className="shrink-0 text-ember" />
         <div>
@@ -92,6 +99,10 @@ export default function Layout() {
           {s.footer.unofficial}
           <br />
           {s.footer.rights}
+          <br />
+          <a href="https://gameresearch.top" className="underline hover:text-ember">
+            {lang === 'zh' ? '更多玩家自制攻略 → GameResearch' : 'More player-made guides → GameResearch'}
+          </a>
         </div>
       </aside>
 
